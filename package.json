@@ -1,0 +1,42 @@
+{
+  "name": "codemirror-lang-tcl",
+  "version": "1.0.0",
+  "description": "CodeMirror 6 language extension for Tcl",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "build-grammar": "lezer-generator src/syntax.grammar -o src/syntax.js",
+    "prepare": "npm run build-grammar && npm run build",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [
+    "codemirror",
+    "tcl",
+    "syntax-highlighting",
+    "language-support"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@codemirror/highlight": "^0.19.0",
+    "@codemirror/language": "^6.0.0",
+    "@lezer/common": "^1.0.0",
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/lr": "^1.0.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@lezer/generator": "^1.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^28.0.0",
+    "jest": "^28.0.0",
+    "jest-environment-node": "^28.0.0",
+    "rollup": "^3.0.0",
+    "ts-jest": "^28.0.0",
+    "typescript": "^5.0.0"
+  }
+}

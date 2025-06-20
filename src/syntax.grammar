@@ -1,0 +1,83 @@
+@top Script { item* }
+
+item {
+  ProcDefinition |
+  ProcInvocation |
+  LineComment
+}
+
+ProcInvocation {
+  ProcInvocationName
+}
+
+ProcInvocationName { word }
+
+ProcDefinition {
+  procKeyword ProcName "{" "}" ProcBody
+}
+
+ProcName { word }
+
+ProcParams { BracedString }
+
+ProcBody { BracedString }
+
+Word { word }
+
+String {
+  QuotedString |
+  BracedString 
+}
+
+QuotedString { 
+  "\"" quotedItem* "\""
+}
+
+quotedItem {
+  quotedText |
+  Variable |
+  CommandSub
+}
+
+BracedString { 
+  "{" bracedItem* "}" 
+}
+
+bracedItem {
+  bracedText |
+  BracedString |
+  Variable |
+  CommandSub
+}
+
+Variable { 
+  "$" word 
+}
+
+CommandSub { 
+  "[" item* "]" 
+}
+
+@tokens {
+  whitespace { (" " | "\t")+ }
+  
+  newline { "\n" | "\r\n" | "\r" }
+  
+  LineComment { "#" ![\n\r]* }
+  
+  quotedText { ![\"\n\r$\[]+ }
+  
+  bracedText { ![{}\n\r$\[]+ }
+  
+  Number { @digit+ ("." @digit+)? }
+  
+  procKeyword { "proc" (" " | "\t") }
+  
+  word { (@asciiLetter | @digit | "_" | "-" | ".")+ }
+  
+  @precedence { procKeyword, word }
+}
+
+
+
+
