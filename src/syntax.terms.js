@@ -7,6 +7,12 @@ export const
   BracedString = 5,
   Variable = 6,
   CommandSub = 7,
-  ProcInvocation = 8,
-  ProcInvocationName = 9,
-  LineComment = 10
+  SetExpression = 8,
+  VarName = 9,
+  SetValue = 10,
+  QuotedString = 11,
+  KeywordCommand = 12,
+  TclKeyword = 13,
+  ProcInvocation = 14,
+  ProcInvocationName = 15,
+  LineComment = 16

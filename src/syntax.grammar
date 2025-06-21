@@ -2,6 +2,8 @@
 
 item {
   ProcDefinition |
+  SetExpression |
+  KeywordCommand |
   ProcInvocation |
   LineComment
 }
@@ -12,11 +14,100 @@ ProcInvocation {
 
 ProcInvocationName { word }
 
+KeywordCommand {
+  TclKeyword
+}
+
+SetExpression {
+  setKeyword VarName SetValue
+}
+
 ProcDefinition {
   procKeyword ProcName "{" "}" ProcBody
 }
 
 ProcName { word }
+
+VarName { word }
+
+SetValue {
+  QuotedString |
+  BracedString |
+  Variable |
+  CommandSub |
+  word
+}
+
+TclKeyword {
+  exprKeyword |
+  putsKeyword |
+  ifKeyword |
+  elseKeyword |
+  elseifKeyword |
+  whileKeyword |
+  forKeyword |
+  foreachKeyword |
+  switchKeyword |
+  returnKeyword |
+  breakKeyword |
+  continueKeyword |
+  globalKeyword |
+  variableKeyword |
+  uplevelKeyword |
+  upvarKeyword |
+  listKeyword |
+  llengthKeyword |
+  lindexKeyword |
+  lappendKeyword |
+  linsertKeyword |
+  lreplaceKeyword |
+  lsearchKeyword |
+  lsortKeyword |
+  joinKeyword |
+  splitKeyword |
+  stringKeyword |
+  regexpKeyword |
+  regsubKeyword |
+  formatKeyword |
+  scanKeyword |
+  arrayKeyword |
+  dictKeyword |
+  incrKeyword |
+  appendKeyword |
+  unsetKeyword |
+  infoKeyword |
+  evalKeyword |
+  sourceKeyword |
+  exitKeyword |
+  errorKeyword |
+  catchKeyword |
+  tryKeyword |
+  finallyKeyword |
+  throwKeyword |
+  namespaceKeyword |
+  packageKeyword |
+  clockKeyword |
+  fileKeyword |
+  globKeyword |
+  cdKeyword |
+  pwdKeyword |
+  openKeyword |
+  closeKeyword |
+  readKeyword |
+  writeKeyword |
+  getsKeyword |
+  flushKeyword |
+  seekKeyword |
+  tellKeyword |
+  eofKeyword |
+  fconfigureKeyword |
+  encodingKeyword |
+  binaryKeyword |
+  afterKeyword |
+  updateKeyword |
+  vwaitKeyword |
+  traceKeyword
+}
 
 ProcParams { BracedString }
 
@@ -69,13 +160,128 @@ CommandSub {
   
   bracedText { ![{}\n\r$\[]+ }
   
+  
   Number { @digit+ ("." @digit+)? }
   
   procKeyword { "proc" (" " | "\t") }
   
+  // Core command keywords
+  setKeyword { "set" }
+  exprKeyword { "expr" }
+  putsKeyword { "puts" }
+  
+  // Control flow keywords  
+  ifKeyword { "if" }
+  elseKeyword { "else" }
+  elseifKeyword { "elseif" }
+  whileKeyword { "while" }
+  forKeyword { "for" }
+  foreachKeyword { "foreach" }
+  switchKeyword { "switch" }
+  returnKeyword { "return" }
+  breakKeyword { "break" }
+  continueKeyword { "continue" }
+  
+  // Variable and scope keywords
+  globalKeyword { "global" }
+  variableKeyword { "variable" }
+  uplevelKeyword { "uplevel" }
+  upvarKeyword { "upvar" }
+  
+  // List manipulation keywords
+  listKeyword { "list" }
+  llengthKeyword { "llength" }
+  lindexKeyword { "lindex" }
+  lappendKeyword { "lappend" }
+  linsertKeyword { "linsert" }
+  lreplaceKeyword { "lreplace" }
+  lsearchKeyword { "lsearch" }
+  lsortKeyword { "lsort" }
+  joinKeyword { "join" }
+  splitKeyword { "split" }
+  
+  // String manipulation keywords
+  stringKeyword { "string" }
+  regexpKeyword { "regexp" }
+  regsubKeyword { "regsub" }
+  formatKeyword { "format" }
+  scanKeyword { "scan" }
+  
+  // Array and dict keywords
+  arrayKeyword { "array" }
+  dictKeyword { "dict" }
+  
+  // Variable manipulation keywords
+  incrKeyword { "incr" }
+  appendKeyword { "append" }
+  unsetKeyword { "unset" }
+  
+  // Introspection keywords
+  infoKeyword { "info" }
+  
+  // Evaluation keywords
+  evalKeyword { "eval" }
+  sourceKeyword { "source" }
+  
+  // Program control keywords
+  exitKeyword { "exit" }
+  errorKeyword { "error" }
+  catchKeyword { "catch" }
+  tryKeyword { "try" }
+  finallyKeyword { "finally" }
+  throwKeyword { "throw" }
+  
+  // Namespace keywords
+  namespaceKeyword { "namespace" }
+  packageKeyword { "package" }
+  
+  // System keywords
+  clockKeyword { "clock" }
+  fileKeyword { "file" }
+  globKeyword { "glob" }
+  cdKeyword { "cd" }
+  pwdKeyword { "pwd" }
+  
+  // I/O keywords
+  openKeyword { "open" }
+  closeKeyword { "close" }
+  readKeyword { "read" }
+  writeKeyword { "write" }
+  getsKeyword { "gets" }
+  flushKeyword { "flush" }
+  seekKeyword { "seek" }
+  tellKeyword { "tell" }
+  eofKeyword { "eof" }
+  fconfigureKeyword { "fconfigure" }
+  encodingKeyword { "encoding" }
+  binaryKeyword { "binary" }
+  
+  // Event keywords
+  afterKeyword { "after" }
+  updateKeyword { "update" }
+  vwaitKeyword { "vwait" }
+  traceKeyword { "trace" }
+  
   word { (@asciiLetter | @digit | "_" | "-" | ".")+ }
   
-  @precedence { procKeyword, word }
+  @precedence { 
+    procKeyword, 
+    setKeyword,
+    exprKeyword, putsKeyword,
+    formatKeyword, ifKeyword, elseKeyword, elseifKeyword, whileKeyword, forKeyword, foreachKeyword, switchKeyword, returnKeyword, breakKeyword, continueKeyword,
+    globalKeyword, variableKeyword, uplevelKeyword, upvarKeyword,
+    listKeyword, llengthKeyword, lindexKeyword, lappendKeyword, linsertKeyword, lreplaceKeyword, lsearchKeyword, lsortKeyword, joinKeyword, splitKeyword,
+    stringKeyword, regexpKeyword, regsubKeyword, scanKeyword,
+    arrayKeyword, dictKeyword,
+    incrKeyword, appendKeyword, unsetKeyword,
+    infoKeyword, evalKeyword, sourceKeyword,
+    exitKeyword, errorKeyword, catchKeyword, tryKeyword, finallyKeyword, throwKeyword,
+    namespaceKeyword, packageKeyword,
+    clockKeyword, fileKeyword, globKeyword, cdKeyword, pwdKeyword,
+    openKeyword, closeKeyword, readKeyword, writeKeyword, getsKeyword, flushKeyword, seekKeyword, tellKeyword, eofKeyword, fconfigureKeyword, encodingKeyword, binaryKeyword,
+    afterKeyword, updateKeyword, vwaitKeyword, traceKeyword,
+    word 
+  }
 }
 
 
