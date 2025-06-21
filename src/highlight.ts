@@ -126,6 +126,7 @@ export const tclHighlight = styleTags({
   
   // Literals and strings
   Variable: t.variableName,
+  VariableName: t.variableName,
   QuotedString: t.string,
   Block: t.string,
   CommandSub: t.special(t.string),

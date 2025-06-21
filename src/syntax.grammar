@@ -185,8 +185,11 @@ quotedItem {
 
 
 Variable { 
-  "$" word 
+  "$" VariableName |
+  "$" "{" VariableName "}"
 }
+
+VariableName { word }
 
 CommandSub { 
   "[" item* "]" 
