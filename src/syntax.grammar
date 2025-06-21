@@ -12,7 +12,10 @@ item {
   SwitchStatement |
   KeywordCommand |
   ProcInvocation |
-  BracedString |
+  Block |
+  QuotedString |
+  Variable |
+  CommandSub |
   LineComment
 }
 
@@ -126,67 +129,45 @@ TclKeyword {
   geKeyword
 }
 
-ProcBody { ProcScript }
-
-ProcScript { 
-  "{" procScriptItem* "}" 
-}
+ProcBody { Block }
 
 IfStatement {
-  ifKeyword BracedString ScriptBlock ElseClause?
+  ifKeyword Block Block ElseClause?
 }
 
 ElseClause {
-  elseifKeyword BracedString ScriptBlock ElseClause? |
-  elseKeyword ScriptBlock
+  elseifKeyword Block Block ElseClause? |
+  elseKeyword Block
 }
 
 WhileStatement {
-  whileKeyword BracedString ScriptBlock
+  whileKeyword Block Block
 }
 
 ForStatement {
-  forKeyword BracedString BracedString BracedString ScriptBlock
+  forKeyword Block Block Block Block
 }
 
 ForeachStatement {
-  foreachKeyword word BracedString ScriptBlock
+  foreachKeyword word Block Block
 }
 
 TryStatement {
-  tryKeyword ScriptBlock FinallyClause?
+  tryKeyword Block FinallyClause?
 }
 
 FinallyClause {
-  finallyKeyword ScriptBlock
+  finallyKeyword Block
 }
 
 SwitchStatement {
-  switchKeyword BracedString ScriptBlock
+  switchKeyword Block Block
 }
 
-ScriptBlock {
-  "{" procScriptItem* "}"
+Block {
+  "{" item* "}"
 }
 
-procScriptItem {
-  ProcDefinition |
-  SetExpression |
-  PackageCommand |
-  IfStatement |
-  WhileStatement |
-  ForStatement |
-  ForeachStatement |
-  TryStatement |
-  SwitchStatement |
-  KeywordCommand |
-  ProcInvocation |
-  BracedString |
-  QuotedString |
-  Variable |
-  CommandSub |
-  LineComment
-}
 
 QuotedString { 
   "\"" quotedItem* "\""
@@ -198,17 +179,6 @@ quotedItem {
   CommandSub
 }
 
-BracedString { 
-  "{" bracedItem* "}" 
-}
-
-bracedItem {
-  bracedText |
-  BracedString |
-  Variable |
-  CommandSub |
-  QuotedString
-}
 
 Variable { 
   "$" word 
@@ -223,8 +193,6 @@ CommandSub {
   LineComment { "#" ![\n\r]* }
   
   quotedText { ![\"\n\r$\[]+ }
-  
-  bracedText { ![{}\n\r$\["]+ }
   
   
   procKeyword { "proc" (" " | "\t") }
