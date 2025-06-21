@@ -49,8 +49,10 @@ PackageProvide {
 }
 
 ProcDefinition {
-  procKeyword ProcName "{" "}" ProcBody
+  ProcKeyword ProcName "{" "}" ProcBody
 }
+
+ProcKeyword { procKeyword }
 
 ProcName { word }
 
@@ -136,37 +138,54 @@ TclKeyword {
 ProcBody { Block }
 
 IfStatement {
-  ifKeyword Block Block ElseClause?
+  IfKeyword Block Block ElseClause?
 }
+
+IfKeyword { ifKeyword }
 
 ElseClause {
-  elseifKeyword Block Block ElseClause? |
-  elseKeyword Block
+  ElseifKeyword Block Block ElseClause? |
+  ElseKeyword Block
 }
+
+ElseifKeyword { elseifKeyword }
+ElseKeyword { elseKeyword }
 
 WhileStatement {
-  whileKeyword Block Block
+  WhileKeyword Block Block
 }
+
+WhileKeyword { whileKeyword }
 
 ForStatement {
-  forKeyword Block Block Block Block
+  ForKeyword Block Block Block Block
 }
+
+ForKeyword { forKeyword }
 
 ForeachStatement {
-  foreachKeyword word Block Block
+  ForeachKeyword word Block Block
 }
+
+ForeachKeyword { foreachKeyword }
 
 TryStatement {
-  tryKeyword Block FinallyClause?
+  TryKeyword Block FinallyClause?
 }
+
+TryKeyword { tryKeyword }
 
 FinallyClause {
-  finallyKeyword Block
+  FinallyKeyword Block
 }
 
+FinallyKeyword { finallyKeyword }
+
 SwitchStatement {
-  switchKeyword Block Block
+  SwitchKeyword Block Block
 }
+
+SwitchKeyword { switchKeyword }
 
 Block {
   "{" item* "}"
@@ -205,103 +224,103 @@ CommandSub {
   procKeyword { "proc" (" " | "\t") }
   
   // Core command keywords
-  setKeyword { "set" }
-  exprKeyword { "expr" }
-  putsKeyword { "puts" }
+  setKeyword { "set" ![a-zA-Z0-9_] }
+  exprKeyword { "expr" ![a-zA-Z0-9_] }
+  putsKeyword { "puts" ![a-zA-Z0-9_] }
   
   // Control flow keywords  
-  ifKeyword { "if" }
-  elseKeyword { "else" }
-  elseifKeyword { "elseif" }
-  whileKeyword { "while" }
-  forKeyword { "for" }
-  foreachKeyword { "foreach" }
-  switchKeyword { "switch" }
-  returnKeyword { "return" }
-  breakKeyword { "break" }
-  continueKeyword { "continue" }
+  ifKeyword { "if" ![a-zA-Z0-9_] }
+  elseKeyword { "else" ![a-zA-Z0-9_] }
+  elseifKeyword { "elseif" ![a-zA-Z0-9_] }
+  whileKeyword { "while" ![a-zA-Z0-9_] }
+  forKeyword { "for" ![a-zA-Z0-9_] }
+  foreachKeyword { "foreach" ![a-zA-Z0-9_] }
+  switchKeyword { "switch" ![a-zA-Z0-9_] }
+  returnKeyword { "return" ![a-zA-Z0-9_] }
+  breakKeyword { "break" ![a-zA-Z0-9_] }
+  continueKeyword { "continue" ![a-zA-Z0-9_] }
   
   // Variable and scope keywords
-  globalKeyword { "global" }
-  variableKeyword { "variable" }
-  uplevelKeyword { "uplevel" }
-  upvarKeyword { "upvar" }
+  globalKeyword { "global" ![a-zA-Z0-9_] }
+  variableKeyword { "variable" ![a-zA-Z0-9_] }
+  uplevelKeyword { "uplevel" ![a-zA-Z0-9_] }
+  upvarKeyword { "upvar" ![a-zA-Z0-9_] }
   
   // List manipulation keywords
-  listKeyword { "list" }
-  llengthKeyword { "llength" }
-  lindexKeyword { "lindex" }
-  lappendKeyword { "lappend" }
-  linsertKeyword { "linsert" }
-  lreplaceKeyword { "lreplace" }
-  lsearchKeyword { "lsearch" }
-  lsortKeyword { "lsort" }
-  joinKeyword { "join" }
-  splitKeyword { "split" }
+  listKeyword { "list" ![a-zA-Z0-9_] }
+  llengthKeyword { "llength" ![a-zA-Z0-9_] }
+  lindexKeyword { "lindex" ![a-zA-Z0-9_] }
+  lappendKeyword { "lappend" ![a-zA-Z0-9_] }
+  linsertKeyword { "linsert" ![a-zA-Z0-9_] }
+  lreplaceKeyword { "lreplace" ![a-zA-Z0-9_] }
+  lsearchKeyword { "lsearch" ![a-zA-Z0-9_] }
+  lsortKeyword { "lsort" ![a-zA-Z0-9_] }
+  joinKeyword { "join" ![a-zA-Z0-9_] }
+  splitKeyword { "split" ![a-zA-Z0-9_] }
   
   // String manipulation keywords
-  stringKeyword { "string" }
-  regexpKeyword { "regexp" }
-  regsubKeyword { "regsub" }
-  formatKeyword { "format" }
-  scanKeyword { "scan" }
+  stringKeyword { "string" ![a-zA-Z0-9_] }
+  regexpKeyword { "regexp" ![a-zA-Z0-9_] }
+  regsubKeyword { "regsub" ![a-zA-Z0-9_] }
+  formatKeyword { "format" ![a-zA-Z0-9_] }
+  scanKeyword { "scan" ![a-zA-Z0-9_] }
   
   // Array and dict keywords
-  arrayKeyword { "array" }
-  dictKeyword { "dict" }
+  arrayKeyword { "array" ![a-zA-Z0-9_] }
+  dictKeyword { "dict" ![a-zA-Z0-9_] }
   
   // Variable manipulation keywords
-  incrKeyword { "incr" }
-  appendKeyword { "append" }
-  unsetKeyword { "unset" }
+  incrKeyword { "incr" ![a-zA-Z0-9_] }
+  appendKeyword { "append" ![a-zA-Z0-9_] }
+  unsetKeyword { "unset" ![a-zA-Z0-9_] }
   
   // Introspection keywords
-  infoKeyword { "info" }
+  infoKeyword { "info" ![a-zA-Z0-9_] }
   
   // Evaluation keywords
-  evalKeyword { "eval" }
-  sourceKeyword { "source" }
+  evalKeyword { "eval" ![a-zA-Z0-9_] }
+  sourceKeyword { "source" ![a-zA-Z0-9_] }
   
   // Program control keywords
-  exitKeyword { "exit" }
-  errorKeyword { "error" }
-  catchKeyword { "catch" }
+  exitKeyword { "exit" ![a-zA-Z0-9_] }
+  errorKeyword { "error" ![a-zA-Z0-9_] }
+  catchKeyword { "catch" ![a-zA-Z0-9_] }
   tryKeyword { "try" ![a-zA-Z0-9_] }
   finallyKeyword { "finally" ![a-zA-Z0-9_] }
-  throwKeyword { "throw" }
+  throwKeyword { "throw" ![a-zA-Z0-9_] }
   
   // Namespace keywords
-  namespaceKeyword { "namespace" }
-  packageKeyword { "package" }
-  requireKeyword { "require" }
-  provideKeyword { "provide" }
+  namespaceKeyword { "namespace" ![a-zA-Z0-9_] }
+  packageKeyword { "package" ![a-zA-Z0-9_] }
+  requireKeyword { "require" ![a-zA-Z0-9_] }
+  provideKeyword { "provide" ![a-zA-Z0-9_] }
   
   // System keywords
-  clockKeyword { "clock" }
-  fileKeyword { "file" }
-  globKeyword { "glob" }
-  cdKeyword { "cd" }
-  pwdKeyword { "pwd" }
+  clockKeyword { "clock" ![a-zA-Z0-9_] }
+  fileKeyword { "file" ![a-zA-Z0-9_] }
+  globKeyword { "glob" ![a-zA-Z0-9_] }
+  cdKeyword { "cd" ![a-zA-Z0-9_] }
+  pwdKeyword { "pwd" ![a-zA-Z0-9_] }
   
   // I/O keywords
   openKeyword { "open" ![a-zA-Z0-9_] }
-  closeKeyword { "close" }
-  readKeyword { "read" }
-  writeKeyword { "write" }
-  getsKeyword { "gets" }
-  flushKeyword { "flush" }
-  seekKeyword { "seek" }
-  tellKeyword { "tell" }
-  eofKeyword { "eof" }
-  fconfigureKeyword { "fconfigure" }
-  encodingKeyword { "encoding" }
-  binaryKeyword { "binary" }
+  closeKeyword { "close" ![a-zA-Z0-9_] }
+  readKeyword { "read" ![a-zA-Z0-9_] }
+  writeKeyword { "write" ![a-zA-Z0-9_] }
+  getsKeyword { "gets" ![a-zA-Z0-9_] }
+  flushKeyword { "flush" ![a-zA-Z0-9_] }
+  seekKeyword { "seek" ![a-zA-Z0-9_] }
+  tellKeyword { "tell" ![a-zA-Z0-9_] }
+  eofKeyword { "eof" ![a-zA-Z0-9_] }
+  fconfigureKeyword { "fconfigure" ![a-zA-Z0-9_] }
+  encodingKeyword { "encoding" ![a-zA-Z0-9_] }
+  binaryKeyword { "binary" ![a-zA-Z0-9_] }
   
   // Event keywords
-  afterKeyword { "after" }
-  updateKeyword { "update" }
-  vwaitKeyword { "vwait" }
-  traceKeyword { "trace" }
+  afterKeyword { "after" ![a-zA-Z0-9_] }
+  updateKeyword { "update" ![a-zA-Z0-9_] }
+  vwaitKeyword { "vwait" ![a-zA-Z0-9_] }
+  traceKeyword { "trace" ![a-zA-Z0-9_] }
   
   // Comparison operators
   eqKeyword { "eq" ![a-zA-Z0-9_] }

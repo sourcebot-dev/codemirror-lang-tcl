@@ -1,0 +1,136 @@
+# Test keyword highlighting
+
+# Procedure definition
+proc myFunction {arg1 arg2} {
+    return [expr {$arg1 + $arg2}]
+}
+
+# Control flow - if/elseif/else
+if {$x > 0} {
+    puts "positive"
+} elseif {$x == 0} {
+    puts "zero"
+} else {
+    puts "negative"
+}
+
+# Loops - while
+while {$i < 10} {
+    incr i
+}
+
+# Loops - foreach
+foreach item $list {
+    puts $item
+}
+
+# Loops - for
+for {set i 0} {$i < 10} {incr i} {
+    puts $i
+}
+
+# Switch statement
+switch $value {
+    1 { puts "one" }
+    2 { puts "two" }
+    default { puts "other" }
+}
+
+# Try/finally
+try {
+    open $file
+} finally {
+    close $file
+}
+
+# Variable operations
+set x 10
+set y "hello"
+global z
+variable w
+
+==>
+
+Script(
+  LineComment,
+  LineComment,
+  ProcDefinition(
+    ProcKeyword,
+    ProcName,
+    Block,
+    ProcBody(Block(
+      KeywordCommand(TclKeyword),
+      CommandSub(
+        KeywordCommand(TclKeyword),
+        Block(
+          Variable(VariableName),
+          Variable(VariableName)
+        )
+      )
+    ))
+  ),
+  LineComment,
+  IfStatement(
+    IfKeyword,
+    Block(Variable(VariableName), ProcInvocation(ProcInvocationName)),
+    Block(KeywordCommand(TclKeyword), QuotedString),
+    ElseClause(
+      ElseifKeyword,
+      Block(Variable(VariableName), ProcInvocation(ProcInvocationName)),
+      Block(KeywordCommand(TclKeyword), QuotedString),
+      ElseClause(
+        ElseKeyword,
+        Block(KeywordCommand(TclKeyword), QuotedString)
+      )
+    )
+  ),
+  LineComment,
+  WhileStatement(
+    WhileKeyword,
+    Block(Variable(VariableName), ProcInvocation(ProcInvocationName)),
+    Block(KeywordCommand(TclKeyword), ProcInvocation(ProcInvocationName))
+  ),
+  LineComment,
+  ForeachStatement(
+    ForeachKeyword,
+    Variable(VariableName),
+    Block(KeywordCommand(TclKeyword), Variable(VariableName))
+  ),
+  LineComment,
+  ForStatement(
+    ForKeyword,
+    Block(SetExpression(SetKeyword, VarName, SetValue)),
+    Block(Variable(VariableName), ProcInvocation(ProcInvocationName)),
+    Block(KeywordCommand(TclKeyword), ProcInvocation(ProcInvocationName)),
+    Block(KeywordCommand(TclKeyword), Variable(VariableName))
+  ),
+  LineComment,
+  SwitchStatement(
+    SwitchKeyword,
+    Variable(VariableName),
+    Block(
+      ProcInvocation(ProcInvocationName),
+      Block(KeywordCommand(TclKeyword), QuotedString),
+      ProcInvocation(ProcInvocationName),
+      Block(KeywordCommand(TclKeyword), QuotedString),
+      ProcInvocation(ProcInvocationName),
+      Block(KeywordCommand(TclKeyword), QuotedString)
+    )
+  ),
+  LineComment,
+  TryStatement(
+    TryKeyword,
+    Block(KeywordCommand(TclKeyword), Variable(VariableName)),
+    FinallyClause(
+      FinallyKeyword,
+      Block(KeywordCommand(TclKeyword), Variable(VariableName))
+    )
+  ),
+  LineComment,
+  SetExpression(SetKeyword, VarName, SetValue),
+  SetExpression(SetKeyword, VarName, QuotedString),
+  KeywordCommand(TclKeyword),
+  ProcInvocation(ProcInvocationName),
+  KeywordCommand(TclKeyword),
+  ProcInvocation(ProcInvocationName)
+)

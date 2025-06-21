@@ -15,6 +15,7 @@ export const tclHighlight = styleTags({
   
   // Keywords
   procKeyword: t.definitionKeyword,
+  ProcKeyword: t.definitionKeyword,
   setKeyword: t.definitionKeyword,
   packageKeyword: t.definitionKeyword,
   requireKeyword: t.keyword,
@@ -27,12 +28,19 @@ export const tclHighlight = styleTags({
   
   // Control flow keywords
   ifKeyword: t.controlKeyword,
+  IfKeyword: t.controlKeyword,
   elseKeyword: t.controlKeyword,
+  ElseKeyword: t.controlKeyword,
   elseifKeyword: t.controlKeyword,
+  ElseifKeyword: t.controlKeyword,
   whileKeyword: t.controlKeyword,
+  WhileKeyword: t.controlKeyword,
   forKeyword: t.controlKeyword,
+  ForKeyword: t.controlKeyword,
   foreachKeyword: t.controlKeyword,
+  ForeachKeyword: t.controlKeyword,
   switchKeyword: t.controlKeyword,
+  SwitchKeyword: t.controlKeyword,
   returnKeyword: t.controlKeyword,
   breakKeyword: t.controlKeyword,
   continueKeyword: t.controlKeyword,
@@ -83,7 +91,9 @@ export const tclHighlight = styleTags({
   errorKeyword: t.keyword,
   catchKeyword: t.controlKeyword,
   tryKeyword: t.controlKeyword,
+  TryKeyword: t.controlKeyword,
   finallyKeyword: t.controlKeyword,
+  FinallyKeyword: t.controlKeyword,
   throwKeyword: t.controlKeyword,
   
   // Namespace keywords

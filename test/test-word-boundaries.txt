@@ -1,0 +1,121 @@
+# Test word boundary checking for keywords
+
+# Should parse catchResult as a single word, not catch + Result
+if {[catch {kill -0 $pid} catchResult] == 1} {
+    puts "Process not found"
+}
+
+# Other examples that should NOT split
+set format_string "Hello %s"
+set setup_complete 1
+set iffy_condition 0
+set elsewhere "not here"
+set foreach_item "test"
+set returnValue 42
+
+# Variable names that start with keywords
+set listLength 10
+set dictKeys [dict keys $mydict]
+set infoLevel [info level]
+set fileHandle [open test.txt]
+
+# Function names that start with keywords
+proc setupDatabase {} {
+    # setup code
+}
+
+proc formatOutput {text} {
+    return [format "%s\n" $text]
+}
+
+# These SHOULD be recognized as keywords (not part of larger words)
+if {$x > 0} {
+    puts "positive"
+}
+
+foreach item $list {
+    puts $item
+}
+
+set x 10
+catch {dangerous_operation} err
+list a b c
+dict set mydict key value
+
+==>
+
+Script(
+  LineComment,
+  LineComment,
+  IfStatement(
+    IfKeyword,
+    Block(
+      CommandSub(
+        KeywordCommand(TclKeyword),
+        Block(
+          ProcInvocation(ProcInvocationName),
+          ProcInvocation(ProcInvocationName),
+          Variable(VariableName)
+        ),
+        ProcInvocation(ProcInvocationName)
+      ),
+      ProcInvocation(ProcInvocationName)
+    ),
+    Block(
+      KeywordCommand(TclKeyword),
+      QuotedString
+    )
+  ),
+  LineComment,
+  SetExpression(SetKeyword, VarName, QuotedString),
+  SetExpression(SetKeyword, VarName, SetValue),
+  SetExpression(SetKeyword, VarName, SetValue),
+  SetExpression(SetKeyword, VarName, QuotedString),
+  SetExpression(SetKeyword, VarName, QuotedString),
+  SetExpression(SetKeyword, VarName, SetValue),
+  LineComment,
+  SetExpression(SetKeyword, VarName, SetValue),
+  SetExpression(SetKeyword, VarName, CommandSub(KeywordCommand(TclKeyword), ProcInvocation(ProcInvocationName), Variable(VariableName))),
+  SetExpression(SetKeyword, VarName, CommandSub(KeywordCommand(TclKeyword), ProcInvocation(ProcInvocationName))),
+  SetExpression(SetKeyword, VarName, CommandSub(KeywordCommand(TclKeyword), ProcInvocation(ProcInvocationName))),
+  LineComment,
+  ProcDefinition(
+    ProcKeyword,
+    ProcName,
+    Block,
+    ProcBody(Block(LineComment))
+  ),
+  ProcDefinition(
+    ProcKeyword,
+    ProcName,
+    Block(ProcInvocation(ProcInvocationName)),
+    ProcBody(Block(
+      KeywordCommand(TclKeyword),
+      CommandSub(KeywordCommand(TclKeyword), QuotedString, Variable(VariableName))
+    ))
+  ),
+  LineComment,
+  IfStatement(
+    IfKeyword,
+    Block(Variable(VariableName), ProcInvocation(ProcInvocationName)),
+    Block(KeywordCommand(TclKeyword), QuotedString)
+  ),
+  ForeachStatement(
+    ForeachKeyword,
+    Variable(VariableName),
+    Block(KeywordCommand(TclKeyword), Variable(VariableName))
+  ),
+  SetExpression(SetKeyword, VarName, SetValue),
+  KeywordCommand(TclKeyword),
+  Block(ProcInvocation(ProcInvocationName)),
+  ProcInvocation(ProcInvocationName),
+  KeywordCommand(TclKeyword),
+  ProcInvocation(ProcInvocationName),
+  ProcInvocation(ProcInvocationName),
+  ProcInvocation(ProcInvocationName),
+  KeywordCommand(TclKeyword),
+  KeywordCommand(TclKeyword),
+  ProcInvocation(ProcInvocationName),
+  ProcInvocation(ProcInvocationName),
+  ProcInvocation(ProcInvocationName)
+)
