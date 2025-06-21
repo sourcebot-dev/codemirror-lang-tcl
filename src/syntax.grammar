@@ -4,6 +4,12 @@ item {
   ProcDefinition |
   SetExpression |
   PackageCommand |
+  IfStatement |
+  WhileStatement |
+  ForStatement |
+  ForeachStatement |
+  TryStatement |
+  SwitchStatement |
   KeywordCommand |
   ProcInvocation |
   BracedString |
@@ -56,13 +62,6 @@ SetValue {
 TclKeyword {
   exprKeyword |
   putsKeyword |
-  ifKeyword |
-  elseKeyword |
-  elseifKeyword |
-  whileKeyword |
-  forKeyword |
-  foreachKeyword |
-  switchKeyword |
   returnKeyword |
   breakKeyword |
   continueKeyword |
@@ -96,8 +95,6 @@ TclKeyword {
   exitKeyword |
   errorKeyword |
   catchKeyword |
-  tryKeyword |
-  finallyKeyword |
   throwKeyword |
   namespaceKeyword |
   clockKeyword |
@@ -135,10 +132,53 @@ ProcScript {
   "{" procScriptItem* "}" 
 }
 
+IfStatement {
+  ifKeyword BracedString ScriptBlock ElseClause?
+}
+
+ElseClause {
+  elseifKeyword BracedString ScriptBlock ElseClause? |
+  elseKeyword ScriptBlock
+}
+
+WhileStatement {
+  whileKeyword BracedString ScriptBlock
+}
+
+ForStatement {
+  forKeyword BracedString BracedString BracedString ScriptBlock
+}
+
+ForeachStatement {
+  foreachKeyword word BracedString ScriptBlock
+}
+
+TryStatement {
+  tryKeyword ScriptBlock FinallyClause?
+}
+
+FinallyClause {
+  finallyKeyword ScriptBlock
+}
+
+SwitchStatement {
+  switchKeyword BracedString ScriptBlock
+}
+
+ScriptBlock {
+  "{" procScriptItem* "}"
+}
+
 procScriptItem {
   ProcDefinition |
   SetExpression |
   PackageCommand |
+  IfStatement |
+  WhileStatement |
+  ForStatement |
+  ForeachStatement |
+  TryStatement |
+  SwitchStatement |
   KeywordCommand |
   ProcInvocation |
   BracedString |
