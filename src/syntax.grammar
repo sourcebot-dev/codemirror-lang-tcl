@@ -3,8 +3,10 @@
 item {
   ProcDefinition |
   SetExpression |
+  PackageCommand |
   KeywordCommand |
   ProcInvocation |
+  BracedString |
   LineComment
 }
 
@@ -22,6 +24,19 @@ SetExpression {
   setKeyword VarName SetValue
 }
 
+PackageCommand {
+  PackageRequire |
+  PackageProvide 
+}
+
+PackageRequire {
+  packageKeyword requireKeyword word
+}
+
+PackageProvide {
+  packageKeyword provideKeyword word word
+}
+
 ProcDefinition {
   procKeyword ProcName "{" "}" ProcBody
 }
@@ -31,8 +46,6 @@ ProcName { word }
 VarName { word }
 
 SetValue {
-  QuotedString |
-  BracedString |
   Variable |
   CommandSub |
   word
@@ -85,7 +98,6 @@ TclKeyword {
   finallyKeyword |
   throwKeyword |
   namespaceKeyword |
-  packageKeyword |
   clockKeyword |
   fileKeyword |
   globKeyword |
@@ -106,19 +118,16 @@ TclKeyword {
   afterKeyword |
   updateKeyword |
   vwaitKeyword |
-  traceKeyword
+  traceKeyword |
+  eqKeyword |
+  neKeyword |
+  ltKeyword |
+  gtKeyword |
+  leKeyword |
+  geKeyword
 }
-
-ProcParams { BracedString }
 
 ProcBody { BracedString }
-
-Word { word }
-
-String {
-  QuotedString |
-  BracedString 
-}
 
 QuotedString { 
   "\"" quotedItem* "\""
@@ -138,7 +147,8 @@ bracedItem {
   bracedText |
   BracedString |
   Variable |
-  CommandSub
+  CommandSub |
+  QuotedString
 }
 
 Variable { 
@@ -150,18 +160,13 @@ CommandSub {
 }
 
 @tokens {
-  whitespace { (" " | "\t")+ }
-  
-  newline { "\n" | "\r\n" | "\r" }
   
   LineComment { "#" ![\n\r]* }
   
   quotedText { ![\"\n\r$\[]+ }
   
-  bracedText { ![{}\n\r$\[]+ }
+  bracedText { ![{}\n\r$\["]+ }
   
-  
-  Number { @digit+ ("." @digit+)? }
   
   procKeyword { "proc" (" " | "\t") }
   
@@ -234,6 +239,8 @@ CommandSub {
   // Namespace keywords
   namespaceKeyword { "namespace" }
   packageKeyword { "package" }
+  requireKeyword { "require" }
+  provideKeyword { "provide" }
   
   // System keywords
   clockKeyword { "clock" }
@@ -243,7 +250,7 @@ CommandSub {
   pwdKeyword { "pwd" }
   
   // I/O keywords
-  openKeyword { "open" }
+  openKeyword { "open" ![a-zA-Z0-9_] }
   closeKeyword { "close" }
   readKeyword { "read" }
   writeKeyword { "write" }
@@ -262,7 +269,15 @@ CommandSub {
   vwaitKeyword { "vwait" }
   traceKeyword { "trace" }
   
-  word { (@asciiLetter | @digit | "_" | "-" | ".")+ }
+  // Comparison operators
+  eqKeyword { "eq" }
+  neKeyword { "ne" }
+  ltKeyword { "lt" }
+  gtKeyword { "gt" }
+  leKeyword { "le" }
+  geKeyword { "ge" }
+  
+  word { (@asciiLetter | @digit | "_" | "-" | "." | "/")+ }
   
   @precedence { 
     procKeyword, 
@@ -276,10 +291,11 @@ CommandSub {
     incrKeyword, appendKeyword, unsetKeyword,
     infoKeyword, evalKeyword, sourceKeyword,
     exitKeyword, errorKeyword, catchKeyword, tryKeyword, finallyKeyword, throwKeyword,
-    namespaceKeyword, packageKeyword,
+    namespaceKeyword, packageKeyword, requireKeyword, provideKeyword,
     clockKeyword, fileKeyword, globKeyword, cdKeyword, pwdKeyword,
     openKeyword, closeKeyword, readKeyword, writeKeyword, getsKeyword, flushKeyword, seekKeyword, tellKeyword, eofKeyword, fconfigureKeyword, encodingKeyword, binaryKeyword,
     afterKeyword, updateKeyword, vwaitKeyword, traceKeyword,
+    eqKeyword, neKeyword, ltKeyword, gtKeyword, leKeyword, geKeyword,
     word 
   }
 }

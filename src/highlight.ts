@@ -2,15 +2,26 @@ import { styleTags, tags as t } from "@lezer/highlight"
 
 export const tclHighlight = styleTags({
   // Procedure definitions and calls
+  ProcDefinition: t.definition(t.function(t.name)),
   ProcName: t.definition(t.function(t.name)),
+  ProcBody: t.string,
+  ProcInvocation: t.function(t.name),
   ProcInvocationName: t.function(t.name),
   
   // Set expressions
   VarName: t.definition(t.variableName),
   
+  // Package commands
+  PackageCommand: t.keyword,
+  PackageRequire: t.keyword,
+  PackageProvide: t.keyword,
+  
   // Keywords
   procKeyword: t.definitionKeyword,
   setKeyword: t.definitionKeyword,
+  packageKeyword: t.definitionKeyword,
+  requireKeyword: t.keyword,
+  provideKeyword: t.keyword,
   TclKeyword: t.keyword,
   
   // Core command keywords
@@ -80,7 +91,6 @@ export const tclHighlight = styleTags({
   
   // Namespace keywords
   namespaceKeyword: t.keyword,
-  packageKeyword: t.keyword,
   
   // System keywords
   clockKeyword: t.keyword,
@@ -109,11 +119,23 @@ export const tclHighlight = styleTags({
   vwaitKeyword: t.keyword,
   traceKeyword: t.keyword,
   
+  // Comparison operators
+  eqKeyword: t.operator,
+  neKeyword: t.operator,
+  ltKeyword: t.operator,
+  gtKeyword: t.operator,
+  leKeyword: t.operator,
+  geKeyword: t.operator,
+  
   // Literals and strings
   Variable: t.variableName,
-  Number: t.number,
   QuotedString: t.string,
   BracedString: t.string,
+  CommandSub: t.special(t.string),
+  
+  // Expression types
+  SetExpression: t.keyword,
+  SetValue: t.string,
   
   // Comments
   LineComment: t.lineComment,
@@ -121,6 +143,5 @@ export const tclHighlight = styleTags({
   // Delimiters
   "{ }": t.brace,
   "[ ]": t.squareBracket,
-  '"': t.string,
   "$": t.special(t.variableName)
 })
