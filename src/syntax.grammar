@@ -376,7 +376,7 @@ CommandSub {
     openKeyword, closeKeyword, readKeyword, writeKeyword, getsKeyword, flushKeyword, seekKeyword, tellKeyword, eofKeyword, fconfigureKeyword, encodingKeyword, binaryKeyword,
     afterKeyword, updateKeyword, vwaitKeyword, traceKeyword,
     eqKeyword, neKeyword, ltKeyword, gtKeyword, leKeyword, geKeyword,
-    word, Number, SimpleWord 
+    Number, word, SimpleWord 
   }
 }
 
