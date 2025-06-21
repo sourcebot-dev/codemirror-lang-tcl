@@ -2,9 +2,7 @@ import { styleTags, tags as t } from "@lezer/highlight"
 
 export const tclHighlight = styleTags({
   // Procedure definitions and calls
-  ProcDefinition: t.definition(t.function(t.name)),
   ProcName: t.definition(t.function(t.name)),
-  ProcBody: t.string,
   ProcInvocationName: t.function(t.name),
   
   // Set expressions
@@ -12,9 +10,8 @@ export const tclHighlight = styleTags({
   VarName: t.definition(t.variableName),
   
   // Package commands
-  PackageCommand: t.keyword,
-  PackageRequire: t.keyword,
-  PackageProvide: t.keyword,
+  PackageName: t.special(t.string),
+  PackageVersion: t.number,
   
   // Keywords
   procKeyword: t.definitionKeyword,
@@ -130,7 +127,7 @@ export const tclHighlight = styleTags({
   // Literals and strings
   Variable: t.variableName,
   QuotedString: t.string,
-  BracedString: t.string,
+  Block: t.string,
   CommandSub: t.special(t.string),
   
   // Expression types
