@@ -49,7 +49,7 @@ PackageProvide {
 }
 
 ProcDefinition {
-  ProcKeyword ProcName "{" "}" ProcBody
+  ProcKeyword ProcName ProcArgList ProcBody
 }
 
 ProcKeyword { procKeyword }
@@ -136,6 +136,30 @@ TclKeyword {
 }
 
 ProcBody { Block }
+
+ProcArgList {
+  "{" ProcArg* "}"
+}
+
+ProcArg {
+  ProcArgSimple |
+  ProcArgWithDefault
+}
+
+ProcArgSimple {
+  VariableName
+}
+
+ProcArgWithDefault {
+  "{" VariableName ProcArgDefaultValue "}"
+}
+
+ProcArgDefaultValue {
+  Number |
+  SimpleWord |
+  Variable |
+  CommandSub
+}
 
 IfStatement {
   IfKeyword Block Block ElseClause?
@@ -332,6 +356,9 @@ CommandSub {
   
   word { (@asciiLetter | @digit | "_" | "-" | "." | "/")+ }
   
+  Number { @digit+ ("." @digit+)? }
+  SimpleWord { (@asciiLetter | "_") (@asciiLetter | @digit | "_")* }
+  
   @precedence { 
     procKeyword, 
     setKeyword,
@@ -349,7 +376,7 @@ CommandSub {
     openKeyword, closeKeyword, readKeyword, writeKeyword, getsKeyword, flushKeyword, seekKeyword, tellKeyword, eofKeyword, fconfigureKeyword, encodingKeyword, binaryKeyword,
     afterKeyword, updateKeyword, vwaitKeyword, traceKeyword,
     eqKeyword, neKeyword, ltKeyword, gtKeyword, leKeyword, geKeyword,
-    word 
+    word, Number, SimpleWord 
   }
 }
 
