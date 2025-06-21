@@ -21,8 +21,10 @@ KeywordCommand {
 }
 
 SetExpression {
-  setKeyword VarName SetValue
+  SetKeyword VarName SetValue
 }
+
+SetKeyword { setKeyword }
 
 PackageCommand {
   PackageRequire |
@@ -232,8 +234,8 @@ CommandSub {
   exitKeyword { "exit" }
   errorKeyword { "error" }
   catchKeyword { "catch" }
-  tryKeyword { "try" }
-  finallyKeyword { "finally" }
+  tryKeyword { "try" ![a-zA-Z0-9_] }
+  finallyKeyword { "finally" ![a-zA-Z0-9_] }
   throwKeyword { "throw" }
   
   // Namespace keywords
@@ -270,12 +272,12 @@ CommandSub {
   traceKeyword { "trace" }
   
   // Comparison operators
-  eqKeyword { "eq" }
-  neKeyword { "ne" }
-  ltKeyword { "lt" }
-  gtKeyword { "gt" }
-  leKeyword { "le" }
-  geKeyword { "ge" }
+  eqKeyword { "eq" ![a-zA-Z0-9_] }
+  neKeyword { "ne" ![a-zA-Z0-9_] }
+  ltKeyword { "lt" ![a-zA-Z0-9_] }
+  gtKeyword { "gt" ![a-zA-Z0-9_] }
+  leKeyword { "le" ![a-zA-Z0-9_] }
+  geKeyword { "ge" ![a-zA-Z0-9_] }
   
   word { (@asciiLetter | @digit | "_" | "-" | "." | "/")+ }
   
@@ -283,7 +285,7 @@ CommandSub {
     procKeyword, 
     setKeyword,
     exprKeyword, putsKeyword,
-    formatKeyword, ifKeyword, elseKeyword, elseifKeyword, whileKeyword, forKeyword, foreachKeyword, switchKeyword, returnKeyword, breakKeyword, continueKeyword,
+    formatKeyword, ifKeyword, elseifKeyword, elseKeyword, whileKeyword, foreachKeyword, forKeyword, switchKeyword, returnKeyword, breakKeyword, continueKeyword,
     globalKeyword, variableKeyword, uplevelKeyword, upvarKeyword,
     listKeyword, llengthKeyword, lindexKeyword, lappendKeyword, linsertKeyword, lreplaceKeyword, lsearchKeyword, lsortKeyword, joinKeyword, splitKeyword,
     stringKeyword, regexpKeyword, regsubKeyword, scanKeyword,

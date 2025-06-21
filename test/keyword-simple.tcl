@@ -1,0 +1,12 @@
+if
+else
+elseif
+while
+for
+foreach
+switch
+return
+break
+continue
+puts
+expr

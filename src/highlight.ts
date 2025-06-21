@@ -5,10 +5,10 @@ export const tclHighlight = styleTags({
   ProcDefinition: t.definition(t.function(t.name)),
   ProcName: t.definition(t.function(t.name)),
   ProcBody: t.string,
-  ProcInvocation: t.function(t.name),
   ProcInvocationName: t.function(t.name),
   
   // Set expressions
+  SetKeyword: t.definitionKeyword,
   VarName: t.definition(t.variableName),
   
   // Package commands
