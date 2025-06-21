@@ -129,7 +129,24 @@ TclKeyword {
   geKeyword
 }
 
-ProcBody { BracedString }
+ProcBody { ProcScript }
+
+ProcScript { 
+  "{" procScriptItem* "}" 
+}
+
+procScriptItem {
+  ProcDefinition |
+  SetExpression |
+  PackageCommand |
+  KeywordCommand |
+  ProcInvocation |
+  BracedString |
+  QuotedString |
+  Variable |
+  CommandSub |
+  LineComment
+}
 
 QuotedString { 
   "\"" quotedItem* "\""
